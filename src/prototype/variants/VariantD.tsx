@@ -24,7 +24,7 @@ import { EntryPage } from "../components/EntryPage";
 import { CommandPalette } from "../components/CommandPalette";
 import { TypeFilter } from "../components/TypeFilter";
 import { Legend } from "../components/Legend";
-import { buildGraph, connectionsOf } from "../graph-data";
+import { buildGraph, connectionsOf } from "@/domain";
 import { WORLD } from "../fake-world";
 import type { VariantProps } from "../variant-props";
 
@@ -62,8 +62,8 @@ export default function VariantD({
   );
   const selected = selectedId ? byId.get(selectedId) : null;
   const connections = useMemo(
-    () => (selectedId ? connectionsOf(selectedId, relationships, byId) : []),
-    [selectedId, relationships, byId],
+    () => (selectedId ? connectionsOf(selectedId, relationships, entries) : []),
+    [selectedId, relationships, entries],
   );
 
   const page = pageEntryId ? byId.get(pageEntryId) : null;
@@ -75,7 +75,6 @@ export default function VariantD({
         entry={page}
         entries={entries}
         relationships={relationships}
-        byId={byId}
         visibleTypes={visibleTypes}
         onOpenPage={(id) => onOpenPage?.(id)}
         onBack={() => onOpenPage?.(null)}

@@ -15,10 +15,11 @@
 
 import { motion } from "motion/react";
 import { useMemo, useState } from "react";
-import { ENTRY_TYPES } from "@/domain";
+import { ENTRY_TYPES, connectionsOf } from "@/domain";
 import { ForceGraph } from "../components/ForceGraph";
 import { TypeFilter } from "../components/TypeFilter";
-import { connectionsOf, neighbourhood } from "../graph-data";
+
+import { neighbourhood } from "../graph-data";
 import { WORLD } from "../fake-world";
 import type { VariantProps } from "../variant-props";
 
@@ -50,8 +51,8 @@ export default function VariantC({
     [focusId, entries, relationships, visibleTypes],
   );
   const connections = useMemo(
-    () => connectionsOf(focusId, relationships, byId),
-    [focusId, relationships, byId],
+    () => connectionsOf(focusId, relationships, entries),
+    [focusId, relationships, entries],
   );
 
   if (!focus) return null;

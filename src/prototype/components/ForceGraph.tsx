@@ -11,7 +11,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { GraphData, GraphNode } from "../graph-data";
+import type { GraphData, GraphNode } from "@/domain";
 
 // The library ships loose types that fight the dynamic() wrapper. Prototype
 // code — a single cast here is cheaper than modelling the whole prop surface.

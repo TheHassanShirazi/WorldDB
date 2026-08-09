@@ -85,16 +85,3 @@ export const RELATIONSHIP_TYPES: Record<RelationshipTypeId, RelationshipTypeDef>
 
 export const RELATIONSHIP_TYPE_LIST: readonly RelationshipTypeDef[] =
   Object.values(RELATIONSHIP_TYPES);
-
-/**
- * Reads a Relationship from the point of view of one of its endpoints.
- * This is the whole reason inverse labels exist — the caller never has to know
- * which direction the edge was stored in.
- */
-export function readRelationship(
-  type: RelationshipTypeId,
-  standingOn: "from" | "to",
-): string {
-  const def = RELATIONSHIP_TYPES[type];
-  return standingOn === "from" ? def.label : def.inverseLabel;
-}

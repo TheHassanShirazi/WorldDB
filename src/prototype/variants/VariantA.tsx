@@ -17,7 +17,7 @@ import { ForceGraph } from "../components/ForceGraph";
 import { EntryPanel } from "../components/EntryPanel";
 import { TypeFilter } from "../components/TypeFilter";
 import { Legend } from "../components/Legend";
-import { buildGraph, connectionsOf } from "../graph-data";
+import { buildGraph, connectionsOf } from "@/domain";
 import { WORLD } from "../fake-world";
 import type { VariantProps } from "../variant-props";
 
@@ -39,8 +39,8 @@ export default function VariantA({
   );
   const selected = selectedId ? byId.get(selectedId) : null;
   const connections = useMemo(
-    () => (selectedId ? connectionsOf(selectedId, relationships, byId) : []),
-    [selectedId, relationships, byId],
+    () => (selectedId ? connectionsOf(selectedId, relationships, entries) : []),
+    [selectedId, relationships, entries],
   );
 
   return (

@@ -12,8 +12,7 @@
  * that the peek shouldn't exist at all.
  */
 
-import { ENTRY_TYPES, type Entry } from "@/domain";
-import type { Connection } from "../graph-data";
+import { ENTRY_TYPES, type Connection, type Entry } from "@/domain";
 
 interface Props {
   entry: Entry;

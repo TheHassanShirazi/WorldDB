@@ -15,13 +15,13 @@ import { useMemo } from "react";
 import { ENTRY_TYPES, type Entry, type EntryTypeId, type Relationship } from "@/domain";
 import { ForceGraph } from "./ForceGraph";
 import { Legend } from "./Legend";
-import { connectionsOf, neighbourhood } from "../graph-data";
+import { connectionsOf } from "@/domain";
+import { neighbourhood } from "../graph-data";
 
 interface Props {
   entry: Entry;
   entries: Entry[];
   relationships: Relationship[];
-  byId: Map<string, Entry>;
   visibleTypes: Set<EntryTypeId>;
   onOpenPage: (id: string) => void;
   onBack: () => void;
@@ -31,15 +31,14 @@ export function EntryPage({
   entry,
   entries,
   relationships,
-  byId,
   visibleTypes,
   onOpenPage,
   onBack,
 }: Props) {
   const def = ENTRY_TYPES[entry.type];
   const connections = useMemo(
-    () => connectionsOf(entry.id, relationships, byId),
-    [entry.id, relationships, byId],
+    () => connectionsOf(entry.id, relationships, entries),
+    [entry.id, relationships, entries],
   );
   const local = useMemo(
     () => neighbourhood(entry.id, entries, relationships, visibleTypes),

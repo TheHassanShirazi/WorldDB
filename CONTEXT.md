@@ -11,7 +11,7 @@ A single self-contained fictional setting, and the boundary of everything inside
 _Avoid_: Project, universe, campaign
 
 **Entry**:
-One documented thing in a World — a person, a place, an organisation, a system of magic, a moment in history. The unit a writer creates, edits, and reads.
+One documented thing in a World — a person, a place, an organisation, a system of magic, a moment in history. The unit a writer creates, edits, and reads. No two Entries in a World share a name, which is what makes a Mention resolvable.
 _Avoid_: Page, article, node, document, record
 
 **Entry Type**:

@@ -14,10 +14,11 @@
  */
 
 import { useMemo, useState } from "react";
-import { ENTRY_TYPES, ENTRY_TYPE_LIST, type Entry } from "@/domain";
+import { ENTRY_TYPES, ENTRY_TYPE_LIST, connectionsOf, type Entry } from "@/domain";
 import { ForceGraph } from "../components/ForceGraph";
 import { TypeFilter } from "../components/TypeFilter";
-import { connectionsOf, neighbourhood, searchEntries } from "../graph-data";
+
+import { neighbourhood, searchEntries } from "../graph-data";
 import { WORLD } from "../fake-world";
 import type { VariantProps } from "../variant-props";
 
@@ -55,8 +56,8 @@ export default function VariantB({
 
   const selected = selectedId ? byId.get(selectedId) : null;
   const connections = useMemo(
-    () => (selectedId ? connectionsOf(selectedId, relationships, byId) : []),
-    [selectedId, relationships, byId],
+    () => (selectedId ? connectionsOf(selectedId, relationships, entries) : []),
+    [selectedId, relationships, entries],
   );
   const localGraph = useMemo(
     () =>
