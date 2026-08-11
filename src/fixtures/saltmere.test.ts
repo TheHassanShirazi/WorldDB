@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { ENTRIES, RELATIONSHIPS, validateFixture } from "./fake-world";
+import { ENTRIES, RELATIONSHIPS, validateFixture } from "./saltmere";
 
 /**
  * The fixture is hand-written, so these guard it rather than the code. It also

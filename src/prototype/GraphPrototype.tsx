@@ -9,7 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { EntryTypeId } from "@/domain";
 import { ENTRY_TYPE_LIST } from "@/domain";
-import { ENTRIES, RELATIONSHIPS, ENTRIES_BY_ID } from "./fake-world";
+import { ENTRIES, RELATIONSHIPS, ENTRIES_BY_ID } from "@/fixtures/saltmere";
 import { VARIANT_KEYS, type VariantKey } from "./variant-keys";
 import { PrototypeSwitcher } from "./PrototypeSwitcher";
 import VariantA, { NAME as NAME_A } from "./variants/VariantA";

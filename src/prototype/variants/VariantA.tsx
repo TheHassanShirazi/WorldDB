@@ -18,7 +18,7 @@ import { EntryPanel } from "../components/EntryPanel";
 import { TypeFilter } from "../components/TypeFilter";
 import { Legend } from "../components/Legend";
 import { buildGraph, connectionsOf } from "@/domain";
-import { WORLD } from "../fake-world";
+import { WORLD } from "@/fixtures/saltmere";
 import type { VariantProps } from "../variant-props";
 
 export const NAME = "Open Water — full-bleed graph";

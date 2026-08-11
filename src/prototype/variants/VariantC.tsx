@@ -20,7 +20,7 @@ import { ForceGraph } from "../components/ForceGraph";
 import { TypeFilter } from "../components/TypeFilter";
 
 import { neighbourhood } from "../graph-data";
-import { WORLD } from "../fake-world";
+import { WORLD } from "@/fixtures/saltmere";
 import type { VariantProps } from "../variant-props";
 
 export const NAME = "Standing Here — one entry at a time";

@@ -52,7 +52,7 @@ const SEEDS: Seed[] = [
     name: "Threnody",
     summary: "Ossary's lowest district, and the first to drown when the cistern weeps.",
     fields: { kind: "District", population: 14000, water: "rationed" },
-    body: "Built below the waterline of a sea that no longer exists. The irony is not lost on anyone who lives there.",
+    body: "Built below the waterline of a sea that no longer exists. The irony is not lost on anyone who lives there, least of all when [[Hollowmere Cistern]] weeps through the floor.",
   },
   {
     id: "hollowmere-cistern",
@@ -326,7 +326,7 @@ const SEEDS: Seed[] = [
     name: "Sesh Vareth",
     summary: "Corun's daughter and heir. Funds the people trying to ruin him.",
     fields: { role: "Heir to House Vareth", status: "alive", allegiance: "House Vareth", age: 27 },
-    body: "She has never been asked directly, which she takes as evidence that her father knows.",
+    body: "She has never been asked directly, which she takes as evidence that [[Corun Vareth]] knows.",
   },
   {
     id: "kestrel-vareth",
@@ -350,7 +350,7 @@ const SEEDS: Seed[] = [
     name: "Aldric Tuin",
     summary: "Abel's son. Went to the College instead of the Wardens.",
     fields: { role: "Tidewright student", status: "alive", allegiance: "Tidewright College", age: 24 },
-    body: "The choice was read by everyone as a rejection of his father. It was actually a rejection of the secret.",
+    body: "The choice was read by everyone as a rejection of [[Warden Abel Tuin]]. It was actually a rejection of the secret.",
   },
   {
     id: "sister-lorne",
@@ -366,7 +366,7 @@ const SEEDS: Seed[] = [
     name: "Nix",
     summary: "Sixteen, salvor-born, and the best deepsounder in two generations.",
     fields: { role: "Deepsounder", status: "alive", allegiance: "Bonefleet Salvors", age: 16 },
-    body: "She will be deaf by forty. Everyone who wants to use her knows this and none of them have said it to her.",
+    body: "She will be deaf by forty. Everyone who wants to use her knows this and none of them have said it to her, including [[Captain Juno Marr]].",
   },
   {
     id: "juno-marr",
@@ -390,7 +390,10 @@ const SEEDS: Seed[] = [
     name: "Ordwin Sarr",
     summary: "Founded the Undertow. Believes the sea is not gone but held.",
     fields: { role: "Founder of the Undertow", status: "alive", allegiance: "The Undertow", age: 52 },
-    body: "He is either the only person asking the right question or a man who has organised a great deal of violence around a mistake.",
+    // Deliberately names something that is not an Entry. A writer referring to
+    // a thing they have not written yet is normal, and it exercises the
+    // unresolved-mention path end to end.
+    body: "He is either the only person asking the right question or a man who has organised a great deal of violence around a mistake. He speaks of [[The Second Withdrawal]] as though it were already scheduled.",
   },
   {
     id: "sil-mordath",
@@ -454,7 +457,7 @@ const SEEDS: Seed[] = [
     name: "Rue Anders",
     summary: "Tidewright apprentice. Nix's closest friend and worst influence.",
     fields: { role: "Apprentice tidecaller", status: "alive", allegiance: "Tidewright College", age: 18 },
-    body: "Licensed for two litres. Has called considerably more than two litres.",
+    body: "Licensed for two litres. Has called considerably more than two litres, usually with [[Nix]] keeping watch.",
   },
   {
     id: "ceval-ost",

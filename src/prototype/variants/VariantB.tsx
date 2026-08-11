@@ -19,7 +19,7 @@ import { ForceGraph } from "../components/ForceGraph";
 import { TypeFilter } from "../components/TypeFilter";
 
 import { neighbourhood, searchEntries } from "../graph-data";
-import { WORLD } from "../fake-world";
+import { WORLD } from "@/fixtures/saltmere";
 import type { VariantProps } from "../variant-props";
 
 export const NAME = "The Index — wiki-first, graph demoted";
