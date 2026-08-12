@@ -1,20 +1,20 @@
 "use client";
 
 /**
- * PROTOTYPE — canvas force graph.
+ * Canvas force graph.
  *
  * react-force-graph renders to canvas and touches `window` on import, so it
  * must be loaded with `ssr: false`. Next 16 only permits that inside a Client
  * Component, which is why this file carries the "use client" directive and the
- * variants import it rather than importing the library themselves.
+ * callers import it rather than importing the library themselves.
  */
 
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { GraphData, GraphNode } from "@/domain";
 
-// The library ships loose types that fight the dynamic() wrapper. Prototype
-// code — a single cast here is cheaper than modelling the whole prop surface.
+// The library's own types fight the dynamic() wrapper. One cast here is
+// cheaper, and safer to read, than restating its whole prop surface.
 type LooseProps = Record<string, unknown>;
 const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
   ssr: false,
@@ -35,7 +35,7 @@ interface Props {
   centerOn?: string | null;
 }
 
-/** Only the slice of the imperative API this prototype touches. */
+/** Only the slice of the library's imperative API this app touches. */
 interface GraphApi {
   centerAt?: (x: number, y: number, ms?: number) => void;
   zoom?: (z: number, ms?: number) => void;

@@ -72,7 +72,7 @@ export interface RelationshipTypeDef {
   inverseLabel: string;
   symmetric?: boolean;
   color: string;
-  /** Entry Types this may connect. Advisory in the prototype, enforced later. */
+  /** Entry Types this may connect. Advisory — not yet enforced on write. */
   from: readonly EntryTypeId[];
   to: readonly EntryTypeId[];
 }

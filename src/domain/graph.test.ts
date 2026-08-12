@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { buildGraph } from "./graph";
+import { buildGraph, neighbourhood, searchEntries } from "./graph";
 import type { Entry, EntryTypeId, Relationship, RelationshipTypeId } from "./types";
 
 function entry(id: string, name: string, type: EntryTypeId): Entry {
@@ -55,5 +55,59 @@ describe("filtering the graph by entry type", () => {
 
     expect(byRel.get("nix-salvors")?.directed).toBe(true);
     expect(byRel.get("nix-juno")?.directed).toBe(false);
+  });
+});
+
+describe("the one-hop neighbourhood", () => {
+  test("keeps the focus and its direct neighbours only", () => {
+    const outsider = entry("outsider", "Old Vess", "character");
+    const withOutsider = [...entries, outsider];
+    const edges = [...relationships, rel("juno", "outsider", "allied-with")];
+
+    const graph = neighbourhood("nix", withOutsider, edges, ALL);
+
+    // Juno is two hops away via the faction, so she is not in Nix's rail.
+    expect(graph.nodes.map((n) => n.id).sort()).toEqual(["juno", "nix", "salvors"]);
+    expect(graph.nodes.map((n) => n.id)).not.toContain("outsider");
+  });
+
+  test("keeps only edges touching the focus, not those between neighbours", () => {
+    const graph = neighbourhood("salvors", entries, relationships, ALL);
+
+    // nix–juno is an edge between two neighbours; the rail is a star.
+    expect(graph.links.map((l) => l.relId).sort()).toEqual([
+      "juno-salvors",
+      "nix-salvors",
+    ]);
+  });
+
+  test("keeps the focus visible even when its own type is filtered out", () => {
+    const graph = neighbourhood(
+      "nix",
+      entries,
+      relationships,
+      new Set<EntryTypeId>(["faction"]),
+    );
+
+    expect(graph.nodes.map((n) => n.id)).toContain("nix");
+  });
+});
+
+describe("searching entries", () => {
+  test("matches on name, summary and body, case-insensitively", () => {
+    const deep = {
+      ...entry("deep", "Anvil Deep", "location"),
+      summary: "The deepest shaft ever sunk.",
+      body: "Nine hundred metres of ladder and pump.",
+    };
+
+    expect(searchEntries([deep], "anvil").map((e) => e.id)).toEqual(["deep"]);
+    expect(searchEntries([deep], "SHAFT").map((e) => e.id)).toEqual(["deep"]);
+    expect(searchEntries([deep], "ladder").map((e) => e.id)).toEqual(["deep"]);
+    expect(searchEntries([deep], "tidecalling")).toEqual([]);
+  });
+
+  test("an empty query returns everything", () => {
+    expect(searchEntries(entries, "   ")).toHaveLength(entries.length);
   });
 });

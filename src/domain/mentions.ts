@@ -42,3 +42,30 @@ export function mentionsIn(body: string, entries: readonly Entry[]): Mention[] {
     entry: byName.get(name) ?? null,
   }));
 }
+
+export type BodySegment =
+  | { kind: "text"; text: string }
+  | { kind: "mention"; name: string };
+
+/**
+ * Splits a body into plain text and mentions, in order, so a renderer can turn
+ * mentions into links without owning a second copy of the bracket syntax.
+ * Malformed brackets stay in the text exactly as written.
+ */
+export function segmentBody(body: string): BodySegment[] {
+  const segments: BodySegment[] = [];
+  let cursor = 0;
+
+  for (const match of body.matchAll(MENTION)) {
+    const name = match[1].trim();
+    if (!name) continue;
+
+    const at = match.index ?? 0;
+    if (at > cursor) segments.push({ kind: "text", text: body.slice(cursor, at) });
+    segments.push({ kind: "mention", name });
+    cursor = at + match[0].length;
+  }
+
+  if (cursor < body.length) segments.push({ kind: "text", text: body.slice(cursor) });
+  return segments;
+}

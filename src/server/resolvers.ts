@@ -6,7 +6,14 @@ import {
   type Entry,
   type EntryTypeId,
 } from "@/domain";
-import { EntryModel, WorldModel, toDomainEntry, toDomainWorld } from "./models";
+import {
+  EntryModel,
+  RelationshipModel,
+  WorldModel,
+  toDomainEntry,
+  toDomainRelationship,
+  toDomainWorld,
+} from "./models";
 import { graphqlTypeName } from "./schema";
 import { entryNameKey, type Loaders } from "./loaders";
 
@@ -48,6 +55,11 @@ export const resolvers = {
     entries: async (world: { id: string }) => {
       const docs = await EntryModel.find({ worldId: world.id }).lean();
       return docs.map(toDomainEntry);
+    },
+
+    relationships: async (world: { id: string }) => {
+      const docs = await RelationshipModel.find({ worldId: world.id }).lean();
+      return docs.map(toDomainRelationship);
     },
   },
 

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * PROTOTYPE — relationship legend.
+ * Relationship legend.
  *
  * Worth watching during evaluation: nine types is already close to the point
  * where a colour legend stops being readable at a glance. If this feels like

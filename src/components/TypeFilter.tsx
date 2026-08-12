@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * PROTOTYPE — type filtering.
+ * Type filtering.
  *
  * Present in every variant on purpose: filtering is what keeps a force layout
  * legible, so a variant judged without it would be judged unfairly.

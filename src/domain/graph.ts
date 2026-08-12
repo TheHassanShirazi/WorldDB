@@ -72,3 +72,47 @@ export function buildGraph(
     }),
   };
 }
+
+/**
+ * The one-hop neighbourhood around an entry — what the entry page's rail shows.
+ * Only edges touching the focus are kept, so the rail stays a star rather than
+ * dragging in the neighbours' own connections.
+ */
+export function neighbourhood(
+  entryId: string,
+  entries: readonly Entry[],
+  relationships: readonly Relationship[],
+  visibleTypes: ReadonlySet<EntryTypeId>,
+): GraphData {
+  const touching = relationships.filter(
+    (r) => r.from === entryId || r.to === entryId,
+  );
+
+  const keep = new Set<string>([entryId]);
+  for (const r of touching) keep.add(r.from === entryId ? r.to : r.from);
+
+  // The focus itself survives even when its own type is filtered out —
+  // otherwise the page you are reading vanishes from its own graph.
+  const subset = entries.filter(
+    (e) => keep.has(e.id) && (e.id === entryId || visibleTypes.has(e.type)),
+  );
+  const ids = new Set(subset.map((e) => e.id));
+
+  return buildGraph(
+    subset,
+    touching.filter((r) => ids.has(r.from) && ids.has(r.to)),
+    new Set(subset.map((e) => e.type)),
+  );
+}
+
+/** Backs the command palette. Matches name, summary and body. */
+export function searchEntries(entries: readonly Entry[], query: string): Entry[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [...entries];
+  return entries.filter(
+    (e) =>
+      e.name.toLowerCase().includes(q) ||
+      e.summary.toLowerCase().includes(q) ||
+      e.body.toLowerCase().includes(q),
+  );
+}

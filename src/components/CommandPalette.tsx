@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * PROTOTYPE — ⌘K entry search.
+ * ⌘K entry search.
  *
  * This is what replaces variant B's persistent index. Finding an entry by name
  * is a *search* problem, and a permanent sidebar is an expensive way to buy it —
@@ -14,24 +14,34 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ENTRY_TYPES, type Entry } from "@/domain";
-import { searchEntries } from "../graph-data";
+import { searchEntries } from "@/domain";
 
 interface Props {
   open: boolean;
   entries: Entry[];
   onClose: () => void;
+  /** Enter — select the node and pan to it, staying on the graph. */
   onPick: (id: string) => void;
+  /** Cmd/Ctrl+Enter — go straight to the entry's page. */
+  onOpen: (id: string) => void;
 }
 
-export function CommandPalette({ open, entries, onClose, onPick }: Props) {
+export function CommandPalette({ open, entries, onClose, onPick, onOpen }: Props) {
   return (
     <AnimatePresence>
-      {open && <PaletteBody entries={entries} onClose={onClose} onPick={onPick} />}
+      {open && (
+        <PaletteBody
+          entries={entries}
+          onClose={onClose}
+          onPick={onPick}
+          onOpen={onOpen}
+        />
+      )}
     </AnimatePresence>
   );
 }
 
-function PaletteBody({ entries, onClose, onPick }: Omit<Props, "open">) {
+function PaletteBody({ entries, onClose, onPick, onOpen }: Omit<Props, "open">) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLUListElement>(null);
@@ -48,8 +58,9 @@ function PaletteBody({ entries, onClose, onPick }: Omit<Props, "open">) {
       ?.scrollIntoView({ block: "nearest" });
   }, [active]);
 
-  const choose = (id: string) => {
-    onPick(id);
+  const choose = (id: string, openPage = false) => {
+    if (openPage) onOpen(id);
+    else onPick(id);
     onClose();
   };
 
@@ -63,7 +74,7 @@ function PaletteBody({ entries, onClose, onPick }: Omit<Props, "open">) {
     } else if (e.key === "Enter") {
       e.preventDefault();
       const pick = results[active];
-      if (pick) choose(pick.id);
+      if (pick) choose(pick.id, e.metaKey || e.ctrlKey);
     } else if (e.key === "Escape") {
       e.preventDefault();
       onClose();
@@ -105,7 +116,7 @@ function PaletteBody({ entries, onClose, onPick }: Omit<Props, "open">) {
               <li key={e.id} data-index={i}>
                 <button
                   onMouseEnter={() => setActive(i)}
-                  onClick={() => choose(e.id)}
+                  onClick={(event) => choose(e.id, event.metaKey || event.ctrlKey)}
                   className={`flex w-full items-center gap-2.5 px-4 py-2 text-left transition ${
                     i === active ? "bg-white/10" : ""
                   }`}
@@ -131,7 +142,8 @@ function PaletteBody({ entries, onClose, onPick }: Omit<Props, "open">) {
         </ul>
         <div className="flex items-center gap-3 border-t border-white/10 px-4 py-2 text-[10px] text-white/30">
           <span>↑↓ move</span>
-          <span>↵ open</span>
+          <span>↵ peek</span>
+          <span>⌘↵ read</span>
           <span>esc close</span>
           <span className="ml-auto tabular-nums">{results.length} results</span>
         </div>

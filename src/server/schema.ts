@@ -118,11 +118,25 @@ type Mention {
   entry: Entry
 }
 
+"""
+A Relationship as stored: one edge, one direction, read correctly from either
+end via Connection. Exposed raw because the graph view needs edges once, and
+Connection would hand back each edge twice — once per endpoint.
+"""
+type Relationship {
+  id: ID!
+  from: ID!
+  to: ID!
+  type: String!
+  note: String
+}
+
 type World {
   id: ID!
   name: String!
   tagline: String!
   entries: [Entry!]!
+  relationships: [Relationship!]!
 }
 
 type Query {

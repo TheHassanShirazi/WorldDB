@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { extractMentionNames, mentionsIn } from "./mentions";
+import { extractMentionNames, mentionsIn, segmentBody } from "./mentions";
 import { connectionsOf } from "./connections";
 import type { Entry } from "./types";
 
@@ -59,5 +59,34 @@ describe("resolving mentions against a world", () => {
     expect(mentionsIn(rue.body, [nix, rue])[0].entry?.id).toBe("nix");
     expect(connectionsOf("rue", [], [nix, rue])).toEqual([]);
     expect(connectionsOf("nix", [], [nix, rue])).toEqual([]);
+  });
+});
+
+describe("splitting a body for rendering", () => {
+  test("interleaves text and mentions in order", () => {
+    expect(segmentBody("before [[Nix]] after")).toEqual([
+      { kind: "text", text: "before " },
+      { kind: "mention", name: "Nix" },
+      { kind: "text", text: " after" },
+    ]);
+  });
+
+  test("leaves a body with no mentions as a single run of text", () => {
+    expect(segmentBody("just prose")).toEqual([{ kind: "text", text: "just prose" }]);
+  });
+
+  test("keeps malformed brackets as literal text", () => {
+    expect(segmentBody("an [[unclosed mention")).toEqual([
+      { kind: "text", text: "an [[unclosed mention" },
+    ]);
+  });
+
+  test("reassembling the segments loses nothing but the brackets", () => {
+    const body = "[[Nix]] and [[Rue Anders]] met in [[Ossary]].";
+    const rebuilt = segmentBody(body)
+      .map((s) => (s.kind === "text" ? s.text : s.name))
+      .join("");
+
+    expect(rebuilt).toBe("Nix and Rue Anders met in Ossary.");
   });
 });

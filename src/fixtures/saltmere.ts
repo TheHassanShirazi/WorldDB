@@ -1,5 +1,5 @@
 /**
- * PROTOTYPE FIXTURE — in-memory only, no database.
+ * Seed content for the Saltmere world, loaded by scripts/seed.ts.
  *
  * "Saltmere": an inland sea withdrew within living memory, leaving harbour
  * cities marooned on salt flats. Everything now turns on who controls water.
@@ -7,8 +7,9 @@
  * 66 entries / ~120 relationships — deliberately sized for the force layout
  * (dense enough to show structure, well short of a hairball).
  *
- * The *content* here is not throwaway even though the surrounding prototype is:
- * it graduates to scripts/seed.ts when the real seed lands.
+ * Written to be genuinely interconnected rather than filler: a force layout
+ * shows structure or it shows nothing, and a demo world of Character 1 and
+ * Location 2 would make the graph look broken when it is working perfectly.
  */
 
 import type {
